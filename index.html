@@ -1,0 +1,1236 @@
+<!DOCTYPE html>
+<html lang="id" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <title>Jong Canno Cup Season 2 Tahun 2026 - Bagan 70 Tim</title>
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        cyber: {
+                            950: '#050914',
+                            900: '#0a1026',
+                            800: '#121b3b',
+                            700: '#1d2a57',
+                            cyan: '#00f0ff',
+                            gold: '#fbbf24',
+                            pink: '#ff007f'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Google Fonts & FontAwesome -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #050914;
+            user-select: none;
+            -webkit-user-select: none;
+            touch-action: manipulation;
+        }
+
+        /* Glassmorphism effects */
+        .glass-panel {
+            background: rgba(10, 16, 38, 0.75);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(0, 240, 255, 0.12);
+        }
+
+        .glass-panel-gold {
+            background: rgba(20, 16, 5, 0.85);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(251, 191, 36, 0.25);
+        }
+
+        /* Node interactions & transitions */
+        .bracket-node {
+            transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), filter 0.2s ease;
+            cursor: pointer;
+        }
+        .bracket-node:hover, .bracket-node:active {
+            filter: brightness(1.35) drop-shadow(0 0 10px rgba(0, 240, 255, 0.6));
+        }
+
+        .bracket-line {
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            transition: stroke 0.3s ease, stroke-width 0.3s ease;
+        }
+
+        /* Custom Scrollbars */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        /* Pulsing Glow Animation for Winner / Champion */
+        @keyframes neonPulse {
+            0%, 100% { filter: drop-shadow(0 0 4px rgba(0, 240, 255, 0.6)); }
+            50% { filter: drop-shadow(0 0 14px rgba(0, 240, 255, 0.9)); }
+        }
+
+        @keyframes goldPulse {
+            0%, 100% { filter: drop-shadow(0 0 6px rgba(251, 191, 36, 0.7)); }
+            50% { filter: drop-shadow(0 0 18px rgba(251, 191, 36, 1)); }
+        }
+
+        .pulse-cyan {
+            animation: neonPulse 2.5s infinite ease-in-out;
+        }
+
+        .pulse-gold {
+            animation: goldPulse 2s infinite ease-in-out;
+        }
+
+        /* Node highlight search match */
+        .search-highlight {
+            animation: neonPulse 0.8s infinite alternate;
+        }
+
+        @media print {
+            .no-print {
+                display: none !important;
+            }
+            body, #viewport {
+                background-color: #050914 !important;
+            }
+        }
+    </style>
+</head>
+<body class="h-screen flex flex-col overflow-hidden text-slate-100 bg-cyber-950">
+
+    <!-- Header / Branding & Navigation Bar -->
+    <header class="no-print glass-panel text-white px-3 py-2.5 sm:px-6 sm:py-3 flex flex-col md:flex-row items-center justify-between z-20 shadow-2xl border-b border-cyan-500/10 gap-2.5 md:gap-0">
+        
+        <!-- Left Title & Branding -->
+        <div class="flex items-center space-x-3 w-full md:w-auto justify-between md:justify-start">
+            <div class="flex items-center space-x-3">
+                <div class="relative">
+                    <div class="w-10 h-10 bg-gradient-to-tr from-cyan-600 via-cyan-400 to-amber-400 text-slate-950 rounded-xl font-extrabold flex items-center justify-center shadow-lg shadow-cyan-500/20">
+                        <i class="fa-solid fa-trophy text-lg text-slate-950"></i>
+                    </div>
+                    <span class="absolute -top-1 -right-1 flex h-3 w-3">
+                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75"></span>
+                        <span class="relative inline-flex rounded-full h-3 w-3 bg-cyan-500"></span>
+                    </span>
+                </div>
+
+                <div>
+                    <h1 class="text-sm sm:text-base font-black tracking-wide text-white flex items-center gap-2">
+                        Jong Canno Cup 
+                        <span class="text-[10px] bg-cyan-500/10 text-cyan-400 border border-cyan-500/30 px-2 py-0.5 rounded-full font-bold uppercase tracking-wider">Season 2 • 2026</span>
+                    </h1>
+                    <div class="flex items-center gap-2 mt-0.5 text-[11px] text-slate-400">
+                        <span>70 Tim • Single Elimination</span>
+                        <span class="text-slate-600">•</span>
+                        <!-- Match Progress Bar -->
+                        <div class="flex items-center gap-1.5" title="Kemajuan Pertandingan">
+                            <div class="w-16 h-1.5 bg-slate-800 rounded-full overflow-hidden border border-slate-700/50">
+                                <div id="progressBar" class="h-full bg-gradient-to-r from-cyan-500 to-emerald-400 transition-all duration-500" style="width: 0%"></div>
+                            </div>
+                            <span id="progressText" class="text-[10px] font-mono text-cyan-400 font-bold">0/69</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Mobile Admin Toggle Button -->
+            <div class="md:hidden">
+                <button id="adminMobileBadge" onclick="handleAdminBadgeClick()" class="px-2.5 py-1 text-[11px] rounded-lg font-semibold flex items-center gap-1.5 transition shadow border border-slate-700 bg-slate-900/90 text-slate-300 active:scale-95">
+                    <i class="fa-solid fa-lock text-[10px]"></i> <span id="adminMobileText">Penonton</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Action Controls & Admin Login Bar -->
+        <div class="flex items-center justify-between md:justify-end w-full md:w-auto space-x-2 text-xs">
+            
+            <!-- Team Search Input -->
+            <div class="relative flex-1 sm:flex-initial">
+                <input type="text" id="searchInput" oninput="handleSearch(this.value)" placeholder="Cari Tim..." class="w-28 sm:w-36 pl-7 pr-2.5 py-1.5 bg-slate-900/90 border border-slate-700/80 focus:border-cyan-400 text-cyan-300 rounded-lg text-xs placeholder-slate-500 focus:outline-none transition-all">
+                <i class="fa-solid fa-magnifying-glass absolute left-2.5 top-2.5 text-slate-500 text-[10px]"></i>
+            </div>
+
+            <!-- Admin Badge (Desktop) -->
+            <div class="hidden md:flex items-center">
+                <button id="adminBadge" onclick="handleAdminBadgeClick()" class="px-3 py-1.5 rounded-lg font-semibold flex items-center gap-1.5 transition shadow border border-slate-700 bg-slate-900/90 text-slate-300 hover:bg-slate-800">
+                    <i id="adminLockIcon" class="fa-solid fa-lock text-slate-400"></i>
+                    <span id="adminStatusText">Mode Penonton</span>
+                </button>
+            </div>
+
+            <!-- Manage Teams Button -->
+            <button onclick="requireAdmin(openTeamModal)" class="px-3 py-1.5 bg-slate-900 hover:bg-slate-800 text-cyan-300 border border-cyan-500/20 hover:border-cyan-500/50 rounded-lg transition flex items-center gap-1.5 font-medium shadow-sm">
+                <i class="fa-solid fa-users-gear text-xs"></i> <span class="hidden sm:inline">Kelola </span>Tim
+            </button>
+            
+            <!-- Reset Button -->
+            <button onclick="requireAdmin(confirmResetWinners)" class="px-3 py-1.5 bg-slate-900 hover:bg-slate-800 text-amber-400 border border-amber-500/20 hover:border-amber-500/50 rounded-lg transition flex items-center gap-1.5 font-medium shadow-sm" title="Reset Skor & Pemenang">
+                <i class="fa-solid fa-rotate-left text-xs"></i> Reset
+            </button>
+
+            <div class="h-4 w-px bg-slate-800 mx-0.5"></div>
+
+            <!-- Export Button -->
+            <button onclick="exportPNG()" class="px-3.5 py-1.5 bg-gradient-to-r from-cyan-500 to-cyan-400 hover:from-cyan-400 hover:to-cyan-300 text-slate-950 font-bold rounded-lg transition flex items-center gap-1.5 shadow-lg shadow-cyan-500/20 active:scale-95">
+                <i class="fa-solid fa-download"></i> <span class="hidden sm:inline">Unduh</span> PNG
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Interactive Viewport -->
+    <main id="viewport" class="flex-1 relative overflow-hidden bg-cyber-950 cursor-grab active:cursor-grabbing no-scrollbar touch-none select-none">
+        
+        <!-- Helper Floating Overlay -->
+        <div class="no-print absolute top-3 left-3 z-10 flex flex-col gap-1.5 pointer-events-none">
+            <div class="glass-panel text-slate-300 text-[11px] px-3 py-1.5 rounded-xl border border-slate-800/80 shadow-xl flex items-center gap-2">
+                <span class="text-cyan-400 font-bold"><i class="fa-solid fa-hand-pointer"></i> Navigasi:</span>
+                <span>Geser / Cubit Zoom / Klik Laga untuk Skor</span>
+            </div>
+            <div id="adminNoticeBanner" class="hidden glass-panel text-emerald-300 text-[11px] px-3 py-1.5 rounded-xl border border-emerald-500/30 shadow-xl flex items-center gap-2 font-medium">
+                <i class="fa-solid fa-shield-halved text-emerald-400"></i> Mode Admin Aktif — Akses penuh mengedit skor & tim
+            </div>
+        </div>
+
+        <!-- Floating Control Presets & Zoom Buttons -->
+        <div class="no-print absolute bottom-4 right-4 z-10 flex flex-col glass-panel border border-cyan-500/20 rounded-2xl p-1.5 shadow-2xl space-y-1">
+            <button onclick="zoomIn()" class="p-2.5 hover:bg-slate-800/80 text-cyan-300 rounded-xl transition active:scale-90 flex items-center justify-center" title="Zoom In">
+                <i class="fa-solid fa-plus text-sm"></i>
+            </button>
+            <div class="h-px w-full bg-slate-800/80"></div>
+            <button onclick="zoomOut()" class="p-2.5 hover:bg-slate-800/80 text-cyan-300 rounded-xl transition active:scale-90 flex items-center justify-center" title="Zoom Out">
+                <i class="fa-solid fa-minus text-sm"></i>
+            </button>
+            <div class="h-px w-full bg-slate-800/80"></div>
+            <button onclick="resetZoom()" class="p-2 hover:bg-slate-800/80 text-slate-300 text-[10px] font-bold rounded-xl transition active:scale-90 text-center" title="Fit Entire Bracket">
+                FIT
+            </button>
+            <div class="h-px w-full bg-slate-800/80"></div>
+            <button onclick="focusGrandFinal()" class="p-2 hover:bg-amber-500/20 text-amber-400 text-[11px] font-bold rounded-xl transition active:scale-90 text-center" title="Pusatkan Ke Final">
+                <i class="fa-solid fa-crosshairs"></i>
+            </button>
+        </div>
+
+        <!-- SVG Bracket Wrapper -->
+        <div id="bracket-wrapper" class="w-full h-full flex items-center justify-center transition-transform duration-75 origin-center">
+            <svg id="bracket-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2400 1500" class="w-full h-full max-w-none">
+                <defs>
+                    <!-- Linear Gradients -->
+                    <linearGradient id="nodeBg" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stop-color="#0e172e"/>
+                        <stop offset="100%" stop-color="#080e1f"/>
+                    </linearGradient>
+
+                    <linearGradient id="winnerBg" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stop-color="#0d314d"/>
+                        <stop offset="100%" stop-color="#061c30"/>
+                    </linearGradient>
+
+                    <linearGradient id="championBg" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stop-color="#3b2d07"/>
+                        <stop offset="50%" stop-color="#1f1803"/>
+                        <stop offset="100%" stop-color="#3b2d07"/>
+                    </linearGradient>
+
+                    <linearGradient id="centerGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                        <stop offset="0%" stop-color="#00f0ff"/>
+                        <stop offset="50%" stop-color="#fbbf24"/>
+                        <stop offset="100%" stop-color="#00f0ff"/>
+                    </linearGradient>
+
+                    <!-- Glow Filters -->
+                    <filter id="softGlow" x="-30%" y="-30%" width="160%" height="160%">
+                        <feDropShadow dx="0" dy="0" stdDeviation="4" flood-color="#00f0ff" flood-opacity="0.8"/>
+                    </filter>
+
+                    <filter id="goldGlow" x="-30%" y="-30%" width="160%" height="160%">
+                        <feDropShadow dx="0" dy="0" stdDeviation="6" flood-color="#fbbf24" flood-opacity="0.9"/>
+                    </filter>
+                </defs>
+
+                <!-- Dynamic elements generated via JavaScript -->
+                <g id="lines-layer"></g>
+                <g id="nodes-layer"></g>
+            </svg>
+        </div>
+    </main>
+
+    <!-- Admin Login Modal -->
+    <div id="adminLoginModal" class="no-print fixed inset-0 bg-slate-950/80 backdrop-blur-md z-50 flex items-center justify-center hidden p-4">
+        <div class="glass-panel border border-cyan-500/20 text-white rounded-2xl shadow-2xl w-full max-w-sm p-5 flex flex-col">
+            <div class="flex justify-between items-center pb-3 border-b border-slate-800">
+                <h3 class="text-base font-bold text-cyan-400 flex items-center gap-2">
+                    <i class="fa-solid fa-user-shield"></i> Login Admin Kelola
+                </h3>
+                <button onclick="closeAdminLoginModal()" class="text-slate-400 hover:text-white text-xl">&times;</button>
+            </div>
+            
+            <p class="text-xs text-slate-400 my-3 leading-relaxed">
+                Masukkan kata sandi admin untuk mengelola skor pertandingan, menentukan pemenang, dan mengubah susunan tim.
+            </p>
+
+            <form onsubmit="submitAdminLogin(event)" class="space-y-3">
+                <div>
+                    <label class="block text-[11px] font-semibold text-slate-300 mb-1">Kata Sandi Admin</label>
+                    <input type="password" id="adminPasswordInput" placeholder="Masukkan kata sandi..." class="w-full px-3 py-2.5 bg-slate-950/90 border border-slate-800 focus:border-cyan-400 text-cyan-300 rounded-xl text-sm font-mono focus:outline-none transition">
+                </div>
+
+                <div id="adminLoginError" class="hidden text-xs text-rose-400 bg-rose-950/50 border border-rose-800/60 p-2.5 rounded-xl text-center font-medium">
+                    <i class="fa-solid fa-circle-exclamation me-1"></i> Kata sandi salah!
+                </div>
+
+                <div class="flex justify-end gap-2 pt-2">
+                    <button type="button" onclick="closeAdminLoginModal()" class="px-4 py-2 text-xs bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-xl font-medium">Batal</button>
+                    <button type="submit" class="px-4 py-2 text-xs bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold rounded-xl shadow-lg shadow-cyan-500/20">Login Admin</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Team Edit Modal -->
+    <div id="teamModal" class="no-print fixed inset-0 bg-slate-950/80 backdrop-blur-md z-50 flex items-center justify-center hidden p-4">
+        <div class="glass-panel border border-cyan-500/20 text-white rounded-2xl shadow-2xl w-full max-w-xl p-5 flex flex-col max-h-[90vh]">
+            <div class="flex justify-between items-center pb-3 border-b border-slate-800">
+                <h3 class="text-base font-bold text-cyan-400 flex items-center gap-2">
+                    <i class="fa-solid fa-users"></i> Edit Daftar 70 Tim
+                </h3>
+                <button onclick="closeTeamModal()" class="text-slate-400 hover:text-white text-xl">&times;</button>
+            </div>
+            
+            <p class="text-xs text-slate-400 my-2.5">
+                Masukkan 70 nama tim (1 tim per baris). Urutan tim akan otomatis menempati posisi bagan secara simetris.
+            </p>
+
+            <textarea id="teamsInput" class="w-full flex-1 min-h-[260px] p-3.5 bg-slate-950/90 border border-slate-800 rounded-xl text-xs font-mono text-cyan-300 focus:outline-none focus:border-cyan-400 no-scrollbar resize-none leading-relaxed" placeholder="Tim 1&#10;Tim 2&#10;..."></textarea>
+
+            <div class="flex flex-col sm:flex-row justify-between items-center pt-3 border-t border-slate-800 mt-3 gap-2">
+                <button onclick="fillDefaultTeams()" class="w-full sm:w-auto px-3.5 py-2 text-xs bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-xl border border-slate-700 font-medium">
+                    Isi Standar (Tim 1 - 70)
+                </button>
+                <div class="flex gap-2 w-full sm:w-auto justify-end">
+                    <button onclick="closeTeamModal()" class="px-4 py-2 text-xs bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-xl font-medium">Batal</button>
+                    <button onclick="saveTeams()" class="px-4 py-2 text-xs bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold rounded-xl shadow-lg shadow-cyan-500/20">Simpan & Update Bagan</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Match Score & Winner Modal -->
+    <div id="scoreModal" class="no-print fixed inset-0 bg-slate-950/80 backdrop-blur-md z-50 flex items-center justify-center hidden p-4">
+        <div class="glass-panel border border-cyan-500/30 text-white rounded-2xl shadow-2xl w-full max-w-sm p-5 flex flex-col">
+            <div class="flex justify-between items-center pb-2.5 border-b border-slate-800">
+                <h3 class="text-sm font-bold text-cyan-400 flex items-center gap-2">
+                    <i class="fa-solid fa-trophy text-amber-400"></i> Kelola Skor & Pemenang
+                </h3>
+                <button onclick="closeScoreModal()" class="text-slate-400 hover:text-white text-xl">&times;</button>
+            </div>
+            
+            <p id="modalMatchTitle" class="text-[11px] text-cyan-300 my-2.5 text-center font-bold uppercase tracking-wider bg-slate-950/80 py-2 rounded-xl border border-cyan-500/20">
+                Babak Pertandingan
+            </p>
+
+            <!-- Teams & Scores Input Card -->
+            <div class="grid grid-cols-5 gap-2 items-center my-2 bg-slate-950/80 p-3.5 rounded-xl border border-slate-800">
+                <!-- Team 1 -->
+                <div class="col-span-2 flex flex-col items-center text-center gap-2">
+                    <span id="scoreTeam1Name" class="text-xs font-bold text-slate-100 truncate w-full" title="Tim 1">Tim 1</span>
+                    <div class="flex items-center gap-1">
+                        <button onclick="adjustScore('score1Input', -1)" class="w-6 h-8 bg-slate-800 hover:bg-slate-700 text-cyan-300 rounded-lg text-xs font-bold">-</button>
+                        <input type="number" id="score1Input" min="0" max="99" value="0" class="w-12 h-10 text-center text-base font-black bg-slate-900 border border-slate-700 focus:border-cyan-400 rounded-xl text-cyan-300 focus:outline-none">
+                        <button onclick="adjustScore('score1Input', 1)" class="w-6 h-8 bg-slate-800 hover:bg-slate-700 text-cyan-300 rounded-lg text-xs font-bold">+</button>
+                    </div>
+                    <button onclick="setDirectWinner(1)" class="w-full py-1.5 text-[10px] bg-cyan-950/80 hover:bg-cyan-900 text-cyan-300 border border-cyan-500/40 rounded-lg font-bold transition flex items-center justify-center gap-1 shadow">
+                        <i class="fa-solid fa-check text-cyan-400"></i> Loloskan
+                    </button>
+                </div>
+
+                <!-- VS Badge -->
+                <div class="col-span-1 flex flex-col items-center justify-center text-slate-500 font-black text-xs">
+                    VS
+                </div>
+
+                <!-- Team 2 -->
+                <div class="col-span-2 flex flex-col items-center text-center gap-2">
+                    <span id="scoreTeam2Name" class="text-xs font-bold text-slate-100 truncate w-full" title="Tim 2">Tim 2</span>
+                    <div class="flex items-center gap-1">
+                        <button onclick="adjustScore('score2Input', -1)" class="w-6 h-8 bg-slate-800 hover:bg-slate-700 text-cyan-300 rounded-lg text-xs font-bold">-</button>
+                        <input type="number" id="score2Input" min="0" max="99" value="0" class="w-12 h-10 text-center text-base font-black bg-slate-900 border border-slate-700 focus:border-cyan-400 rounded-xl text-cyan-300 focus:outline-none">
+                        <button onclick="adjustScore('score2Input', 1)" class="w-6 h-8 bg-slate-800 hover:bg-slate-700 text-cyan-300 rounded-lg text-xs font-bold">+</button>
+                    </div>
+                    <button onclick="setDirectWinner(2)" class="w-full py-1.5 text-[10px] bg-cyan-950/80 hover:bg-cyan-900 text-cyan-300 border border-cyan-500/40 rounded-lg font-bold transition flex items-center justify-center gap-1 shadow">
+                        <i class="fa-solid fa-check text-cyan-400"></i> Loloskan
+                    </button>
+                </div>
+            </div>
+
+            <!-- Modal Actions -->
+            <div class="flex justify-between items-center pt-2.5 border-t border-slate-800 mt-1">
+                <button onclick="clearMatchScore()" class="px-3 py-1.5 text-xs bg-rose-950/60 hover:bg-rose-900 text-rose-300 border border-rose-800/60 rounded-xl transition font-medium">
+                    <i class="fa-solid fa-trash me-1"></i> Reset Laga
+                </button>
+                <div class="flex gap-2">
+                    <button onclick="closeScoreModal()" class="px-3 py-1.5 text-xs bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-xl font-medium">Batal</button>
+                    <button onclick="saveMatchScore()" class="px-4 py-1.5 text-xs bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold rounded-xl shadow-lg shadow-cyan-500/20">Simpan Skor</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Generic Confirmation Modal -->
+    <div id="confirmModal" class="no-print fixed inset-0 bg-slate-950/80 backdrop-blur-md z-50 flex items-center justify-center hidden p-4">
+        <div class="glass-panel border border-amber-500/30 text-white rounded-2xl shadow-2xl w-full max-w-sm p-5 flex flex-col text-center">
+            <div class="w-12 h-12 bg-amber-500/10 border border-amber-500/30 rounded-2xl text-amber-400 flex items-center justify-center text-xl mx-auto mb-3">
+                <i class="fa-solid fa-triangle-exclamation"></i>
+            </div>
+            <h3 id="confirmTitle" class="text-base font-bold text-slate-100 mb-1.5">Konfirmasi</h3>
+            <p id="confirmMessage" class="text-xs text-slate-400 mb-4 leading-relaxed">Apakah Anda yakin ingin melakukan tindakan ini?</p>
+            <div class="flex justify-center gap-2">
+                <button onclick="closeConfirmModal(false)" class="px-4 py-2 text-xs bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-xl font-medium w-1/2">Batal</button>
+                <button id="confirmBtnAction" onclick="closeConfirmModal(true)" class="px-4 py-2 text-xs bg-rose-600 hover:bg-rose-500 text-white font-bold rounded-xl shadow-md w-1/2">Ya, Lanjutkan</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Script Engine -->
+    <script>
+        // --- 1. DATA STRUCTURE, COLOR PALETTE & TOURNAMENT CONFIG ---
+        const TOTAL_TEAMS = 70;
+        const BAR_COLOR = "#0a1026";        // Midnight blue node bg
+        const WINNER_COLOR = "#00f0ff";     // Vibrant Cyan
+        const CHAMPION_COLOR = "#fbbf24";   // Gold Champion Highlight
+        const LINE_COLOR = "#1e293b";       // Dark slate connecting line
+        const LINE_ACTIVE = "#00f0ff";      // Active glowing cyan path line
+        const TEXT_COLOR = "#ffffff";       // Defined text color for SVG nodes
+        const ADMIN_PASS = "qwerty";        // Admin Password
+
+        // Dimensions
+        const BAR_WIDTH = 90;
+        const BAR_HEIGHT = 12;
+
+        // Admin Auth State
+        let isAdmin = false;
+        let pendingAdminAction = null;
+
+        // Local Storage Key
+        const STORAGE_KEY = "jong_canno_cup_s2_70_teams_data";
+
+        // 70 Team default names
+        let teamNames = Array.from({ length: TOTAL_TEAMS }, (_, i) => `Tim ${i + 1}`);
+        
+        // Match State Cache
+        let matchState = {};
+        let currentEditingMatchKey = null;
+        let activeSearchQuery = "";
+
+        // Play-In Indices in 32-slot half-trees
+        const playInIndices = [0, 15, 30];
+
+        // --- LOCAL STORAGE DATA PERSISTENCE ---
+        function loadDataFromStorage() {
+            try {
+                const saved = localStorage.getItem(STORAGE_KEY);
+                if (saved) {
+                    const parsed = JSON.parse(saved);
+                    if (parsed.teamNames && Array.isArray(parsed.teamNames)) {
+                        teamNames = parsed.teamNames;
+                    }
+                    if (parsed.matchState) {
+                        matchState = parsed.matchState;
+                    }
+                }
+            } catch (e) {
+                console.error("Gagal membaca data dari localStorage", e);
+            }
+        }
+
+        function saveDataToStorage() {
+            try {
+                const payload = {
+                    teamNames: teamNames,
+                    matchState: matchState
+                };
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(payload));
+            } catch (e) {
+                console.error("Gagal menyimpan data ke localStorage", e);
+            }
+        }
+
+        // Custom Confirm Modal
+        let confirmResolver = null;
+        function showCustomConfirm(title, message, btnText = "Ya, Lanjutkan") {
+            return new Promise((resolve) => {
+                document.getElementById('confirmTitle').textContent = title;
+                document.getElementById('confirmMessage').textContent = message;
+                document.getElementById('confirmBtnAction').textContent = btnText;
+                document.getElementById('confirmModal').classList.remove('hidden');
+                confirmResolver = resolve;
+            });
+        }
+
+        function closeConfirmModal(result) {
+            document.getElementById('confirmModal').classList.add('hidden');
+            if (confirmResolver) {
+                confirmResolver(result);
+                confirmResolver = null;
+            }
+        }
+
+        // --- ADMIN AUTH SYSTEM ---
+        function handleAdminBadgeClick() {
+            if (isAdmin) {
+                isAdmin = false;
+                updateAdminUI();
+            } else {
+                openAdminLoginModal();
+            }
+        }
+
+        function openAdminLoginModal() {
+            document.getElementById('adminPasswordInput').value = '';
+            document.getElementById('adminLoginError').classList.add('hidden');
+            document.getElementById('adminLoginModal').classList.remove('hidden');
+            setTimeout(() => document.getElementById('adminPasswordInput').focus(), 100);
+        }
+
+        function closeAdminLoginModal() {
+            document.getElementById('adminLoginModal').classList.add('hidden');
+            pendingAdminAction = null;
+        }
+
+        function submitAdminLogin(e) {
+            e.preventDefault();
+            const pass = document.getElementById('adminPasswordInput').value;
+            if (pass === ADMIN_PASS) {
+                isAdmin = true;
+                updateAdminUI();
+                closeAdminLoginModal();
+                if (typeof pendingAdminAction === 'function') {
+                    const action = pendingAdminAction;
+                    pendingAdminAction = null;
+                    action();
+                }
+            } else {
+                document.getElementById('adminLoginError').classList.remove('hidden');
+            }
+        }
+
+        function updateAdminUI() {
+            const adminStatusText = document.getElementById('adminStatusText');
+            const adminLockIcon = document.getElementById('adminLockIcon');
+            const adminBadge = document.getElementById('adminBadge');
+            const adminMobileBadge = document.getElementById('adminMobileBadge');
+            const adminMobileText = document.getElementById('adminMobileText');
+            const adminNoticeBanner = document.getElementById('adminNoticeBanner');
+
+            if (isAdmin) {
+                adminStatusText.textContent = "Admin (Keluar)";
+                adminLockIcon.className = "fa-solid fa-lock-open text-emerald-400";
+                adminBadge.className = "px-3 py-1.5 rounded-lg font-semibold flex items-center gap-1.5 transition shadow border border-emerald-500/50 bg-emerald-950 text-emerald-300 hover:bg-emerald-900";
+                
+                adminMobileText.textContent = "Admin";
+                adminMobileBadge.className = "px-2.5 py-1 text-[11px] rounded-lg font-semibold flex items-center gap-1 transition shadow border border-emerald-500/50 bg-emerald-950 text-emerald-300";
+                
+                adminNoticeBanner.classList.remove('hidden');
+            } else {
+                adminStatusText.textContent = "Mode Penonton";
+                adminLockIcon.className = "fa-solid fa-lock text-slate-400";
+                adminBadge.className = "px-3 py-1.5 rounded-lg font-semibold flex items-center gap-1.5 transition shadow border border-slate-700 bg-slate-900/90 text-slate-300 hover:bg-slate-800";
+                
+                adminMobileText.textContent = "Penonton";
+                adminMobileBadge.className = "px-2.5 py-1 text-[11px] rounded-lg font-semibold flex items-center gap-1 transition shadow border border-slate-700 bg-slate-900/90 text-slate-300";
+                
+                adminNoticeBanner.classList.add('hidden');
+            }
+        }
+
+        function requireAdmin(actionCallback) {
+            if (isAdmin) {
+                actionCallback();
+            } else {
+                pendingAdminAction = actionCallback;
+                openAdminLoginModal();
+            }
+        }
+
+        // --- MATCH RESOLUTION HELPERS ---
+        function getMatchData(matchKey) {
+            if (!matchState[matchKey]) {
+                matchState[matchKey] = { score1: 0, score2: 0, winner: null };
+            }
+            return matchState[matchKey];
+        }
+
+        function getSlotTeam(side, round, slotIndex) {
+            if (round === 1) {
+                const teamOffset = side === 'L' ? 0 : 35;
+                if (slotIndex === 0) return { team1: teamNames[teamOffset + 0], team2: teamNames[teamOffset + 1] };
+                if (slotIndex === 15) return { team1: teamNames[teamOffset + 2], team2: teamNames[teamOffset + 3] };
+                if (slotIndex === 30) return { team1: teamNames[teamOffset + 4], team2: teamNames[teamOffset + 5] };
+            }
+
+            if (round === 2) {
+                const teamOffset = side === 'L' ? 0 : 35;
+                let usedPlayInsBefore = 0;
+                for (let k = 0; k < slotIndex; k++) {
+                    if (playInIndices.includes(k)) usedPlayInsBefore++;
+                }
+
+                if (playInIndices.includes(slotIndex)) {
+                    const r1Key = `${side}_1_${slotIndex}`;
+                    const r1Match = getMatchData(r1Key);
+                    const r1Teams = getSlotTeam(side, 1, slotIndex);
+                    
+                    let winnerTeam = "";
+                    if (r1Match.winner === 1) winnerTeam = r1Teams.team1;
+                    else if (r1Match.winner === 2) winnerTeam = r1Teams.team2;
+
+                    return { team: winnerTeam || `Play-In ${side === 'L' ? 'Kiri' : 'Kanan'} ${slotIndex + 1}`, isPlayInWinner: true, r1Key: r1Key };
+                } else {
+                    const byeIndex = teamOffset + 6 + (slotIndex - usedPlayInsBefore);
+                    return { team: teamNames[byeIndex] || `Tim ${byeIndex + 1}`, isBye: true };
+                }
+            }
+
+            const prevRound = round - 1;
+            const prevWinner1 = getMatchWinnerTeam(side, prevRound, slotIndex * 2);
+            const prevWinner2 = getMatchWinnerTeam(side, prevRound, slotIndex * 2 + 1);
+
+            return { team1: prevWinner1, team2: prevWinner2 };
+        }
+
+        function getMatchWinnerTeam(side, round, matchIdx) {
+            if (round === 2) {
+                const slot = getSlotTeam(side, 2, matchIdx);
+                return slot.team;
+            }
+
+            const matchKey = `${side}_${round}_${matchIdx}`;
+            const match = getMatchData(matchKey);
+            
+            let t1 = "", t2 = "";
+            if (round === 3) {
+                t1 = getSlotTeam(side, 2, matchIdx * 2).team;
+                t2 = getSlotTeam(side, 2, matchIdx * 2 + 1).team;
+            } else if (round === 7 || matchKey === 'FINAL') {
+                t1 = getMatchWinnerTeam('L', 6, 0);
+                t2 = getMatchWinnerTeam('R', 6, 0);
+            } else {
+                t1 = getMatchWinnerTeam(side, round - 1, matchIdx * 2);
+                t2 = getMatchWinnerTeam(side, round - 1, matchIdx * 2 + 1);
+            }
+
+            if (match.winner === 1 && t1) return t1;
+            if (match.winner === 2 && t2) return t2;
+            return "";
+        }
+
+        // Update progress bar
+        function updateProgress() {
+            const keys = Object.keys(matchState);
+            let played = 0;
+            keys.forEach(k => {
+                if (matchState[k] && matchState[k].winner !== null) played++;
+            });
+            const pct = Math.round((played / 69) * 100);
+            document.getElementById('progressBar').style.width = `${pct}%`;
+            document.getElementById('progressText').textContent = `${played}/69 (${pct}%)`;
+        }
+
+        // --- STREAMING_CHUNK:Rendering vector SVG diagram and bracket components... ---
+        // --- 2. BRACKET SVG RENDER ENGINE ---
+        function renderBracket() {
+            const svgLines = document.getElementById('lines-layer');
+            const svgNodes = document.getElementById('nodes-layer');
+            svgLines.innerHTML = '';
+            svgNodes.innerHTML = '';
+
+            const SVG_WIDTH = 2400;
+            const SVG_HEIGHT = 1500;
+            const MARGIN_Y = 40;
+            const USABLE_HEIGHT = SVG_HEIGHT - (MARGIN_Y * 2);
+
+            const leftX = [70, 220, 410, 600, 790, 980];
+            const rightX = [2330, 2180, 1990, 1800, 1610, 1420];
+
+            const centerX1 = 1120;
+            const centerX2 = 1280;
+            const centerY = SVG_HEIGHT / 2;
+
+            const coords = {};
+
+            function drawNode(x, y, width, height, teamName = '', score = null, isWinner = false, isFinal = false, matchKey = '', clickHandler = null) {
+                const g = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+                g.setAttribute('class', 'bracket-node');
+                if (clickHandler) {
+                    g.onclick = () => requireAdmin(clickHandler);
+                }
+
+                const isMatch = activeSearchQuery && teamName.toLowerCase().includes(activeSearchQuery);
+                if (isMatch) {
+                    g.classList.add('search-highlight');
+                }
+
+                // Background Capsule Card
+                const rect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+                rect.setAttribute('x', x - width / 2);
+                rect.setAttribute('y', y - height / 2);
+                rect.setAttribute('width', width);
+                rect.setAttribute('height', height);
+                rect.setAttribute('rx', isFinal ? 6 : 4);
+                rect.setAttribute('ry', isFinal ? 6 : 4);
+                
+                if (isFinal && isWinner) {
+                    rect.setAttribute('fill', 'url(#championBg)');
+                    rect.setAttribute('stroke', CHAMPION_COLOR);
+                    rect.setAttribute('stroke-width', '2.5');
+                    rect.setAttribute('filter', 'url(#goldGlow)');
+                } else if (isWinner) {
+                    rect.setAttribute('fill', 'url(#winnerBg)');
+                    rect.setAttribute('stroke', WINNER_COLOR);
+                    rect.setAttribute('stroke-width', '2');
+                    rect.setAttribute('filter', 'url(#softGlow)');
+                } else if (isMatch) {
+                    rect.setAttribute('fill', '#1e1b4b');
+                    rect.setAttribute('stroke', '#a855f7');
+                    rect.setAttribute('stroke-width', '2');
+                } else {
+                    rect.setAttribute('fill', 'url(#nodeBg)');
+                    rect.setAttribute('stroke', isFinal ? '#00f0ff' : '#1e293b');
+                    rect.setAttribute('stroke-width', '1');
+                }
+                g.appendChild(rect);
+
+                // Team Text Label
+                const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+                text.setAttribute('x', x - width / 2 + 6);
+                text.setAttribute('y', y + 3.5);
+                text.setAttribute('fill', isWinner ? (isFinal ? CHAMPION_COLOR : WINNER_COLOR) : TEXT_COLOR);
+                text.setAttribute('font-size', isFinal ? '11px' : '9.5px');
+                text.setAttribute('font-weight', isWinner || isFinal ? 'bold' : '500');
+                text.setAttribute('font-family', 'Plus Jakarta Sans, sans-serif');
+                
+                let displayName = teamName || '-';
+                const maxLen = isFinal ? 18 : 13;
+                if (displayName.length > maxLen) displayName = displayName.substring(0, maxLen - 2) + '..';
+                text.textContent = displayName;
+                g.appendChild(text);
+
+                // Score Badge
+                if (score !== null && score !== undefined && teamName) {
+                    const badgeWidth = 14;
+                    const badgeX = x + width / 2 - badgeWidth - 2;
+                    
+                    const badgeBg = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+                    badgeBg.setAttribute('x', badgeX);
+                    badgeBg.setAttribute('y', y - height / 2 + 2);
+                    badgeBg.setAttribute('width', badgeWidth);
+                    badgeBg.setAttribute('height', height - 4);
+                    badgeBg.setAttribute('rx', 2);
+                    badgeBg.setAttribute('fill', isWinner ? (isFinal ? CHAMPION_COLOR : WINNER_COLOR) : '#1e293b');
+                    g.appendChild(badgeBg);
+
+                    const scoreText = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+                    scoreText.setAttribute('x', badgeX + badgeWidth / 2);
+                    scoreText.setAttribute('y', y + 3.5);
+                    scoreText.setAttribute('fill', isWinner ? '#050914' : '#00f0ff');
+                    scoreText.setAttribute('font-size', '8.5px');
+                    scoreText.setAttribute('font-weight', 'bold');
+                    scoreText.setAttribute('text-anchor', 'middle');
+                    scoreText.textContent = score;
+                    g.appendChild(scoreText);
+                }
+
+                if (teamName) {
+                    const title = document.createElementNS('http://www.w3.org/2000/svg', 'title');
+                    title.textContent = `${teamName}${score !== null ? ` (Skor: ${score})` : ''}`;
+                    g.appendChild(title);
+                }
+
+                svgNodes.appendChild(g);
+            }
+
+            function drawPath(d, strokeWidth = 1.2, color = LINE_COLOR) {
+                const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+                path.setAttribute('d', d);
+                path.setAttribute('stroke', color);
+                path.setAttribute('stroke-width', strokeWidth);
+                path.setAttribute('fill', 'none');
+                path.setAttribute('class', 'bracket-line');
+                if (color === LINE_ACTIVE) {
+                    path.setAttribute('filter', 'url(#softGlow)');
+                }
+                svgLines.appendChild(path);
+            }
+
+            // --- LEFT SIDE RENDER ---
+            const numR2 = 32;
+            const stepY_R2 = USABLE_HEIGHT / (numR2 - 1);
+
+            for (let i = 0; i < numR2; i++) {
+                const y = MARGIN_Y + i * stepY_R2;
+                coords[`L_2_${i}`] = { x: leftX[1], y: y };
+
+                if (playInIndices.includes(i)) {
+                    const y1 = y - 10;
+                    const y2 = y + 10;
+                    const x_r1 = leftX[0];
+                    const r1Key = `L_1_${i}`;
+                    const r1Data = getMatchData(r1Key);
+                    const r1Teams = getSlotTeam('L', 1, i);
+
+                    drawNode(x_r1, y1, BAR_WIDTH * 0.85, BAR_HEIGHT, r1Teams.team1, r1Data.score1, r1Data.winner === 1, false, r1Key, () => openScoreModal(r1Key));
+                    drawNode(x_r1, y2, BAR_WIDTH * 0.85, BAR_HEIGHT, r1Teams.team2, r1Data.score2, r1Data.winner === 2, false, r1Key, () => openScoreModal(r1Key));
+
+                    const r1WinnerActive = r1Data.winner !== null;
+                    drawPath(`M ${x_r1 + BAR_WIDTH * 0.42} ${y1} H ${leftX[1] - BAR_WIDTH/2 - 10} V ${y} H ${leftX[1] - BAR_WIDTH/2}`, r1WinnerActive ? 1.5 : 1, r1WinnerActive ? LINE_ACTIVE : LINE_COLOR);
+                    drawPath(`M ${x_r1 + BAR_WIDTH * 0.42} ${y2} H ${leftX[1] - BAR_WIDTH/2 - 10} V ${y}`, r1WinnerActive ? 1.5 : 1, r1WinnerActive ? LINE_ACTIVE : LINE_COLOR);
+
+                    const r2Team = getSlotTeam('L', 2, i).team;
+                    drawNode(leftX[1], y, BAR_WIDTH, BAR_HEIGHT, r2Team, null, false, false, `L_2_${i}`);
+                } else {
+                    const r2Slot = getSlotTeam('L', 2, i);
+                    drawNode(leftX[1], y, BAR_WIDTH, BAR_HEIGHT, r2Slot.team, null, false, false, `L_2_${i}`);
+                }
+            }
+
+            const leftRoundsCount = [16, 8, 4, 2];
+            for (let rIdx = 0; rIdx < leftRoundsCount.length; rIdx++) {
+                const roundNum = rIdx + 3;
+                const count = leftRoundsCount[rIdx];
+                const colX = leftX[rIdx + 2];
+                const prevColX = leftX[rIdx + 1];
+
+                for (let i = 0; i < count; i++) {
+                    const prevY1 = coords[`L_${roundNum - 1}_${i * 2}`].y;
+                    const prevY2 = coords[`L_${roundNum - 1}_${i * 2 + 1}`].y;
+                    const currentY = (prevY1 + prevY2) / 2;
+                    coords[`L_${roundNum}_${i}`] = { x: colX, y: currentY };
+
+                    const prevMatchIdx1 = i * 2;
+                    const prevMatchIdx2 = i * 2 + 1;
+                    const team1Name = getMatchWinnerTeam('L', roundNum - 1, prevMatchIdx1);
+                    const team2Name = getMatchWinnerTeam('L', roundNum - 1, prevMatchIdx2);
+
+                    const isActiveLine = Boolean(team1Name || team2Name);
+                    const midX = (prevColX + colX) / 2;
+                    drawPath(`M ${prevColX + BAR_WIDTH/2} ${prevY1} H ${midX} V ${prevY2} H ${prevColX + BAR_WIDTH/2}`, isActiveLine ? 1.5 : 1, isActiveLine ? LINE_ACTIVE : LINE_COLOR);
+                    drawPath(`M ${midX} ${currentY} H ${colX - BAR_WIDTH/2}`, isActiveLine ? 1.5 : 1, isActiveLine ? LINE_ACTIVE : LINE_COLOR);
+
+                    const winnerTeam = getMatchWinnerTeam('L', roundNum, i);
+                    drawNode(colX, currentY, BAR_WIDTH, BAR_HEIGHT, winnerTeam || `L_${roundNum}_${i}`, null, Boolean(winnerTeam), false, `L_${roundNum}_${i}`, () => {
+                        openMatchModal('L', roundNum, i);
+                    });
+                }
+            }
+
+            // --- RIGHT SIDE RENDER ---
+            for (let i = 0; i < numR2; i++) {
+                const y = MARGIN_Y + i * stepY_R2;
+                coords[`R_2_${i}`] = { x: rightX[1], y: y };
+
+                if (playInIndices.includes(i)) {
+                    const y1 = y - 10;
+                    const y2 = y + 10;
+                    const x_r1 = rightX[0];
+                    const r1Key = `R_1_${i}`;
+                    const r1Data = getMatchData(r1Key);
+                    const r1Teams = getSlotTeam('R', 1, i);
+
+                    drawNode(x_r1, y1, BAR_WIDTH * 0.85, BAR_HEIGHT, r1Teams.team1, r1Data.score1, r1Data.winner === 1, false, r1Key, () => openScoreModal(r1Key));
+                    drawNode(x_r1, y2, BAR_WIDTH * 0.85, BAR_HEIGHT, r1Teams.team2, r1Data.score2, r1Data.winner === 2, false, r1Key, () => openScoreModal(r1Key));
+
+                    const r1WinnerActive = r1Data.winner !== null;
+                    drawPath(`M ${x_r1 - BAR_WIDTH * 0.42} ${y1} H ${rightX[1] + BAR_WIDTH/2 + 10} V ${y} H ${rightX[1] + BAR_WIDTH/2}`, r1WinnerActive ? 1.5 : 1, r1WinnerActive ? LINE_ACTIVE : LINE_COLOR);
+                    drawPath(`M ${x_r1 - BAR_WIDTH * 0.42} ${y2} H ${rightX[1] + BAR_WIDTH/2 + 10} V ${y}`, r1WinnerActive ? 1.5 : 1, r1WinnerActive ? LINE_ACTIVE : LINE_COLOR);
+
+                    const r2Team = getSlotTeam('R', 2, i).team;
+                    drawNode(rightX[1], y, BAR_WIDTH, BAR_HEIGHT, r2Team, null, false, false, `R_2_${i}`);
+                } else {
+                    const r2Slot = getSlotTeam('R', 2, i);
+                    drawNode(rightX[1], y, BAR_WIDTH, BAR_HEIGHT, r2Slot.team, null, false, false, `R_2_${i}`);
+                }
+            }
+
+            const rightRoundsCount = [16, 8, 4, 2];
+            for (let rIdx = 0; rIdx < rightRoundsCount.length; rIdx++) {
+                const roundNum = rIdx + 3;
+                const count = rightRoundsCount[rIdx];
+                const colX = rightX[rIdx + 2];
+                const prevColX = rightX[rIdx + 1];
+
+                for (let i = 0; i < count; i++) {
+                    const prevY1 = coords[`R_${roundNum - 1}_${i * 2}`].y;
+                    const prevY2 = coords[`R_${roundNum - 1}_${i * 2 + 1}`].y;
+                    const currentY = (prevY1 + prevY2) / 2;
+                    coords[`R_${roundNum}_${i}`] = { x: colX, y: currentY };
+
+                    const prevMatchIdx1 = i * 2;
+                    const prevMatchIdx2 = i * 2 + 1;
+                    const team1Name = getMatchWinnerTeam('R', roundNum - 1, prevMatchIdx1);
+                    const team2Name = getMatchWinnerTeam('R', roundNum - 1, prevMatchIdx2);
+
+                    const isActiveLine = Boolean(team1Name || team2Name);
+                    const midX = (prevColX + colX) / 2;
+                    drawPath(`M ${prevColX - BAR_WIDTH/2} ${prevY1} H ${midX} V ${prevY2} H ${prevColX - BAR_WIDTH/2}`, isActiveLine ? 1.5 : 1, isActiveLine ? LINE_ACTIVE : LINE_COLOR);
+                    drawPath(`M ${midX} ${currentY} H ${colX + BAR_WIDTH/2}`, isActiveLine ? 1.5 : 1, isActiveLine ? LINE_ACTIVE : LINE_COLOR);
+
+                    const winnerTeam = getMatchWinnerTeam('R', roundNum, i);
+                    drawNode(colX, currentY, BAR_WIDTH, BAR_HEIGHT, winnerTeam || `R_${roundNum}_${i}`, null, Boolean(winnerTeam), false, `R_${roundNum}_${i}`, () => {
+                        openMatchModal('R', roundNum, i);
+                    });
+                }
+            }
+
+            // --- CENTER GRAND FINAL MATCH ---
+            const finalLeftTeam = getMatchWinnerTeam('L', 6, 0);
+            const finalRightTeam = getMatchWinnerTeam('R', 6, 0);
+            const finalMatchData = getMatchData('FINAL');
+            const grandChampion = getMatchWinnerTeam('L', 7, 0);
+
+            const leftSemiX = leftX[5];
+            const isLeftFinalActive = Boolean(finalLeftTeam);
+            drawPath(`M ${leftSemiX + BAR_WIDTH/2} ${coords['L_6_0'].y} H ${centerX1 - 40} V ${centerY} H ${centerX1 - 20}`, isLeftFinalActive ? 1.5 : 1, isLeftFinalActive ? LINE_ACTIVE : LINE_COLOR);
+            drawPath(`M ${leftSemiX + BAR_WIDTH/2} ${coords['L_6_1'].y} H ${centerX1 - 40} V ${centerY}`, isLeftFinalActive ? 1.5 : 1, isLeftFinalActive ? LINE_ACTIVE : LINE_COLOR);
+
+            const rightSemiX = rightX[5];
+            const isRightFinalActive = Boolean(finalRightTeam);
+            drawPath(`M ${rightSemiX - BAR_WIDTH/2} ${coords['R_6_0'].y} H ${centerX2 + 40} V ${centerY} H ${centerX2 + 20}`, isRightFinalActive ? 1.5 : 1, isRightFinalActive ? LINE_ACTIVE : LINE_COLOR);
+            drawPath(`M ${rightSemiX - BAR_WIDTH/2} ${coords['R_6_1'].y} H ${centerX2 + 40} V ${centerY}`, isRightFinalActive ? 1.5 : 1, isRightFinalActive ? LINE_ACTIVE : LINE_COLOR);
+
+            // Final Match Nodes
+            drawNode(centerX1, centerY, BAR_WIDTH * 1.1, BAR_HEIGHT * 1.2, finalLeftTeam || 'Finalis Paruh Kiri', finalMatchData.score1, finalMatchData.winner === 1, false, 'FINAL', () => openScoreModal('FINAL'));
+            
+            // Center Decorative Cyan Line / Grand Champion Center Box
+            drawNode(SVG_WIDTH / 2, centerY, BAR_WIDTH * 1.6, BAR_HEIGHT * 1.4, grandChampion ? `🏆 ${grandChampion}` : 'JUARA UTAMA', null, Boolean(grandChampion), true, 'FINAL', () => openScoreModal('FINAL'));
+            
+            drawNode(centerX2, centerY, BAR_WIDTH * 1.1, BAR_HEIGHT * 1.2, finalRightTeam || 'Finalis Paruh Kanan', finalMatchData.score2, finalMatchData.winner === 2, false, 'FINAL', () => openScoreModal('FINAL'));
+
+            updateProgress();
+        }
+
+        // --- 3. MODAL & SCORE HANDLERS ---
+        function openMatchModal(side, round, idx) {
+            const prevRound = round - 1;
+            const t1 = getMatchWinnerTeam(side, prevRound, idx * 2);
+            const t2 = getMatchWinnerTeam(side, prevRound, idx * 2 + 1);
+
+            const matchKey = `${side}_${round}_${idx}`;
+            const roundNames = ["Play-In", "64 Besar", "32 Besar", "16 Besar", "Perempat Final", "Semi Final", "Grand Final"];
+            const rTitle = `Babak ${roundNames[round - 1] || round} (${side === 'L' ? 'Paruh Kiri' : 'Paruh Kanan'})`;
+            
+            openScoreModal(matchKey, t1, t2, rTitle);
+        }
+
+        function openScoreModal(matchKey, customT1 = null, customT2 = null, roundTitle = '') {
+            currentEditingMatchKey = matchKey;
+            const mData = getMatchData(matchKey);
+
+            let team1 = customT1;
+            let team2 = customT2;
+
+            if (!team1 || !team2) {
+                if (matchKey.startsWith('L_1_') || matchKey.startsWith('R_1_')) {
+                    const parts = matchKey.split('_');
+                    const side = parts[0];
+                    const slotIdx = parseInt(parts[2]);
+                    const teams = getSlotTeam(side, 1, slotIdx);
+                    team1 = teams.team1;
+                    team2 = teams.team2;
+                    roundTitle = "Laga Play-In (Babak 1)";
+                } else if (matchKey === 'FINAL') {
+                    team1 = getMatchWinnerTeam('L', 6, 0) || "Finalis Paruh Kiri";
+                    team2 = getMatchWinnerTeam('R', 6, 0) || "Finalis Paruh Kanan";
+                    roundTitle = "GRAND FINAL";
+                }
+            }
+
+            document.getElementById('modalMatchTitle').textContent = roundTitle || `Pengaturan Laga (${matchKey})`;
+            document.getElementById('scoreTeam1Name').textContent = team1 || 'Tim 1';
+            document.getElementById('scoreTeam2Name').textContent = team2 || 'Tim 2';
+            document.getElementById('score1Input').value = mData.score1 || 0;
+            document.getElementById('score2Input').value = mData.score2 || 0;
+
+            document.getElementById('scoreModal').classList.remove('hidden');
+        }
+
+        function closeScoreModal() {
+            document.getElementById('scoreModal').classList.add('hidden');
+            currentEditingMatchKey = null;
+        }
+
+        function adjustScore(inputId, delta) {
+            const input = document.getElementById(inputId);
+            let val = parseInt(input.value) || 0;
+            val = Math.max(0, val + delta);
+            input.value = val;
+        }
+
+        function setDirectWinner(teamIndex) {
+            if (!currentEditingMatchKey) return;
+            const mData = getMatchData(currentEditingMatchKey);
+            
+            const s1 = parseInt(document.getElementById('score1Input').value) || 0;
+            const s2 = parseInt(document.getElementById('score2Input').value) || 0;
+
+            mData.score1 = s1;
+            mData.score2 = s2;
+            mData.winner = teamIndex;
+
+            if (teamIndex === 1 && s1 <= s2) mData.score1 = s2 + 1;
+            if (teamIndex === 2 && s2 <= s1) mData.score2 = s1 + 1;
+
+            saveDataToStorage();
+            closeScoreModal();
+            renderBracket();
+        }
+
+        function saveMatchScore() {
+            if (!currentEditingMatchKey) return;
+            const mData = getMatchData(currentEditingMatchKey);
+            
+            const s1 = parseInt(document.getElementById('score1Input').value) || 0;
+            const s2 = parseInt(document.getElementById('score2Input').value) || 0;
+
+            mData.score1 = s1;
+            mData.score2 = s2;
+
+            if (s1 > s2) mData.winner = 1;
+            else if (s2 > s1) mData.winner = 2;
+            else mData.winner = mData.winner || 1;
+
+            saveDataToStorage();
+            closeScoreModal();
+            renderBracket();
+        }
+
+        function clearMatchScore() {
+            if (!currentEditingMatchKey) return;
+            matchState[currentEditingMatchKey] = { score1: 0, score2: 0, winner: null };
+            saveDataToStorage();
+            closeScoreModal();
+            renderBracket();
+        }
+
+        function handleSearch(query) {
+            activeSearchQuery = query.trim().toLowerCase();
+            renderBracket();
+        }
+
+        // --- STREAMING_CHUNK:Configuring touch navigation, gestures, pan, and zoom controls... ---
+        // --- 4. PAN, PINCH-TO-ZOOM & TOUCH GESTURES ---
+        let currentScale = 1;
+        let translateX = 0;
+        let translateY = 0;
+        let isDragging = false;
+        let startX, startY;
+        let initialPinchDistance = null;
+        let initialScale = 1;
+
+        const viewport = document.getElementById('viewport');
+        const wrapper = document.getElementById('bracket-wrapper');
+
+        function updateTransform() {
+            wrapper.style.transform = `translate(${translateX}px, ${translateY}px) scale(${currentScale})`;
+        }
+
+        function zoomIn() {
+            currentScale = Math.min(currentScale * 1.3, 4.0);
+            updateTransform();
+        }
+
+        function zoomOut() {
+            currentScale = Math.max(currentScale / 1.3, 0.3);
+            updateTransform();
+        }
+
+        function resetZoom() {
+            currentScale = window.innerWidth < 640 ? 0.42 : 0.75;
+            translateX = 0;
+            translateY = 0;
+            updateTransform();
+        }
+
+        function focusGrandFinal() {
+            currentScale = 1.3;
+            translateX = 0;
+            translateY = 0;
+            updateTransform();
+        }
+
+        // Mouse Drag
+        viewport.addEventListener('mousedown', (e) => {
+            if (e.target.closest('.bracket-node')) return;
+            isDragging = true;
+            startX = e.clientX - translateX;
+            startY = e.clientY - translateY;
+        });
+
+        window.addEventListener('mousemove', (e) => {
+            if (!isDragging) return;
+            translateX = e.clientX - startX;
+            translateY = e.clientY - startY;
+            updateTransform();
+        });
+
+        window.addEventListener('mouseup', () => {
+            isDragging = false;
+        });
+
+        // Touch Gestures
+        viewport.addEventListener('touchstart', (e) => {
+            if (e.touches.length === 1) {
+                if (e.target.closest('.bracket-node')) return;
+                isDragging = true;
+                startX = e.touches[0].clientX - translateX;
+                startY = e.touches[0].clientY - translateY;
+            } else if (e.touches.length === 2) {
+                isDragging = false;
+                initialPinchDistance = Math.hypot(
+                    e.touches[0].clientX - e.touches[1].clientX,
+                    e.touches[0].clientY - e.touches[1].clientY
+                );
+                initialScale = currentScale;
+            }
+        }, { passive: true });
+
+        viewport.addEventListener('touchmove', (e) => {
+            if (e.touches.length === 1 && isDragging) {
+                translateX = e.touches[0].clientX - startX;
+                translateY = e.touches[0].clientY - startY;
+                updateTransform();
+            } else if (e.touches.length === 2 && initialPinchDistance) {
+                const dist = Math.hypot(
+                    e.touches[0].clientX - e.touches[1].clientX,
+                    e.touches[0].clientY - e.touches[1].clientY
+                );
+                const factor = dist / initialPinchDistance;
+                currentScale = Math.min(Math.max(initialScale * factor, 0.25), 4.0);
+                updateTransform();
+            }
+        }, { passive: true });
+
+        viewport.addEventListener('touchend', (e) => {
+            if (e.touches.length < 2) {
+                initialPinchDistance = null;
+            }
+            if (e.touches.length === 0) {
+                isDragging = false;
+            }
+        });
+
+        // Wheel Zoom
+        viewport.addEventListener('wheel', (e) => {
+            e.preventDefault();
+            if (e.deltaY < 0) zoomIn();
+            else zoomOut();
+        }, { passive: false });
+
+        // --- 5. TEAM MODAL & EXPORT LOGIC ---
+        function openTeamModal() {
+            document.getElementById('teamsInput').value = teamNames.join('\n');
+            document.getElementById('teamModal').classList.remove('hidden');
+        }
+
+        function closeTeamModal() {
+            document.getElementById('teamModal').classList.add('hidden');
+        }
+
+        function fillDefaultTeams() {
+            const defaults = Array.from({ length: 70 }, (_, i) => `Tim ${i + 1}`);
+            document.getElementById('teamsInput').value = defaults.join('\n');
+        }
+
+        function saveTeams() {
+            const lines = document.getElementById('teamsInput').value
+                .split('\n')
+                .map(s => s.trim())
+                .filter(s => s.length > 0);
+
+            if (lines.length < 70) {
+                for (let i = lines.length; i < 70; i++) {
+                    lines.push(`Tim ${i + 1}`);
+                }
+            }
+
+            teamNames = lines.slice(0, 70);
+            matchState = {};
+            saveDataToStorage();
+            closeTeamModal();
+            renderBracket();
+        }
+
+        async function confirmResetWinners() {
+            const ok = await showCustomConfirm(
+                "Reset Skor & Hasil",
+                "Apakah Anda yakin ingin mereset seluruh skor dan pemenang pertandingan?",
+                "Ya, Reset"
+            );
+            if (ok) {
+                matchState = {};
+                saveDataToStorage();
+                renderBracket();
+            }
+        }
+
+        function exportPNG() {
+            const svgElement = document.getElementById('bracket-svg');
+            const svgData = new XMLSerializer().serializeToString(svgElement);
+            const canvas = document.createElement('canvas');
+            canvas.width = 2400;
+            canvas.height = 1500;
+            const ctx = canvas.getContext('2d');
+
+            const img = new Image();
+            const svgBlob = new Blob([svgData], { type: 'image/svg+xml;charset=utf-8' });
+            const url = URL.createObjectURL(svgBlob);
+
+            img.onload = function () {
+                // Background fill
+                ctx.fillStyle = '#050914';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                ctx.drawImage(img, 0, 0);
+                URL.revokeObjectURL(url);
+
+                const imgURI = canvas.toDataURL('image/png');
+                const link = document.createElement('a');
+                link.download = 'Jong_Canno_Cup_Season2_70_Tim.png';
+                link.href = imgURI;
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            };
+
+            img.src = url;
+        }
+
+        // --- INITIALIZATION ---
+        window.addEventListener('DOMContentLoaded', () => {
+            loadDataFromStorage();
+            renderBracket();
+            resetZoom();
+            updateAdminUI();
+        });
+    </script>
+</body>
+</html>
